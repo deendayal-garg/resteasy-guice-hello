@@ -5,10 +5,13 @@
  */
 package org.jboss.resteasy.examples.guice.user;
 
+import com.google.inject.Singleton;
+
 /**
  *
  * @author dherik
  */
+@Singleton
 public class UserService implements IUserService {
 
     @Override

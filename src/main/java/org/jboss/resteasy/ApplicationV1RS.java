@@ -5,34 +5,40 @@
  */
 package org.jboss.resteasy;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.jboss.resteasy.examples.guice.hello.HelloModule;
+import org.jboss.resteasy.examples.guice.hello.HelloResource;
+import org.jboss.resteasy.examples.guice.user.UserResource;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
-import org.jboss.resteasy.examples.guice.hello.HelloResource;
-import org.jboss.resteasy.examples.guice.user.UserResource;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- *
  * @author dherik
  */
 @ApplicationPath("v1")
 public class ApplicationV1RS extends Application {
 
-    private final Set<Class<?>> classes;
+    private Set<Object> singletons = new HashSet<Object>();
 
     public ApplicationV1RS(@Context ServletContext servletContext) {
-        classes = new HashSet<Class<?>>();
+    }
 
-        classes.add(HelloResource.class);
-        classes.add(UserResource.class);
-    }
-    
     @Override
-    public Set<Class<?>> getClasses() {
-            return this.classes;
+    public Set<Object> getSingletons() {
+        Injector injector = Guice.createInjector(new HelloModule());
+
+        HelloResource helloResource = injector.getInstance(HelloResource.class);
+        UserResource userResource = injector.getInstance(UserResource.class);
+        singletons.add(helloResource);
+        singletons.add(userResource);
+        return singletons;
     }
+
 
 }

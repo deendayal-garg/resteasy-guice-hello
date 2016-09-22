@@ -11,23 +11,20 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 /**
- *
  * @author dherik
  */
 @Path("user")
-public class UserResource 
-{
-    private final IUserService userService;
+public class UserResource {
 
-   @Inject
-   public UserResource(final IUserService userService)
-   {
-      this.userService = userService;
-   }
+    @Inject
+    private IUserService userService;
 
-   @GET
-   @Path("{name}")
-   public String hello(@PathParam("name") final String name) {
-      return userService.getUser(name);
-   }
+    public UserResource() {
+    }
+
+    @GET
+    @Path("{name}")
+    public String hello(@PathParam("name") final String name) {
+        return userService.getUser(name);
+    }
 }

@@ -7,19 +7,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 @Path("hello")
-public class HelloResource
-{
-   private final IGreeterService greeter;
+public class HelloResource {
+    @Inject
+    private IGreeterService greeter;
 
-   @Inject
-   public HelloResource(final IGreeterService greeter)
-   {
-      this.greeter = greeter;
-   }
+    public HelloResource() {
+    }
 
-   @GET
-   @Path("{name}")
-   public String hello(@PathParam("name") final String name) {
-      return greeter.greet(name);
-   }
+    @GET
+    @Path("{name}")
+    public String hello(@PathParam("name") final String name) {
+        return greeter.greet(name);
+    }
 }
